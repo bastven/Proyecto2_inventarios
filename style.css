@@ -1,0 +1,524 @@
+/* =========================================
+   VARIABLES GLOBALES (CSS CUSTOM PROPERTIES)
+   ========================================= */
+   :root {
+    /* Paleta de Colores Moderna (Dark/Glass Theme) */
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    
+    --accent-color: #3b82f6;
+    --accent-hover: #2563eb;
+    
+    --success-color: #10b981;
+    --error-color: #ef4444;
+    --warning-color: #f59e0b;
+    
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    
+    --border-radius: 12px;
+    --transition-speed: 0.3s;
+}
+
+/* =========================================
+   RESETEOS Y TIPOGRAFÍA
+   ========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 2rem 1rem;
+    
+    /* Background animado sutil */
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(59, 130, 246, 0.15) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%);
+    background-attachment: fixed;
+}
+
+/* =========================================
+   LAYOUT PRINCIPAL
+   ========================================= */
+.app-container {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 1rem;
+    animation: fadeInDown 0.8s ease;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-size: 2rem;
+}
+
+.icon {
+    font-size: 2.5rem;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-weight: 300;
+    margin-top: 0.5rem;
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+@media (max-width: 900px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   COMPONENTES (GLASSMORPHISM)
+   ========================================= */
+.panel-glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1s ease;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0.5rem;
+}
+
+/* =========================================
+   FORMULARIOS
+   ========================================= */
+.form-section {
+    position: sticky;
+    top: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-secondary);
+}
+
+input, select {
+    background-color: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    transition: all var(--transition-speed);
+    outline: none;
+}
+
+input:focus, select:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.25);
+}
+
+input::placeholder {
+    color: rgba(148, 163, 184, 0.5);
+}
+
+.error-msg {
+    color: var(--error-color);
+    font-size: 0.8rem;
+    margin-top: 0.4rem;
+    min-height: 1.2rem; /* Reservar espacio para que no salte el layout */
+    display: block;
+}
+
+/* =========================================
+   BOTONES
+   ========================================= */
+.btn-primary {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all var(--transition-speed);
+    margin-top: 1rem;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-delete {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error-color);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    padding: 0.4rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+    background-color: var(--error-color);
+    color: white;
+}
+
+/* =========================================
+   NAVBAR (MENÚ DE NAVEGACIÓN)
+   ========================================= */
+.navbar {
+    display: flex;
+    gap: 0.5rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--border-radius);
+    padding: 0.5rem;
+    margin-bottom: 2rem;
+    overflow-x: auto;
+}
+
+.nav-item {
+    background: transparent;
+    color: var(--text-secondary);
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-speed);
+    white-space: nowrap;
+}
+
+.nav-item:hover {
+    color: var(--text-primary);
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.nav-item.active {
+    background-color: var(--accent-color);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+/* =========================================
+   TABLA E INVENTARIO
+   ========================================= */
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 0.5rem;
+}
+
+.section-header h2 {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.badge {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th {
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 1rem;
+    border-bottom: 2px solid var(--glass-border);
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    vertical-align: middle;
+}
+
+tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.stock-low {
+    color: var(--warning-color);
+    font-weight: 700;
+}
+
+.stock-ok {
+    color: var(--success-color);
+    font-weight: 700;
+}
+
+/* =========================================
+   ESTADOS VACÍOS Y ALERTAS
+   ========================================= */
+.empty-state {
+    text-align: center;
+    padding: 3rem 1rem;
+    color: var(--text-secondary);
+}
+
+.hidden {
+    display: none !important;
+}
+
+.empty-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.alert-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.alert {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    color: white;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    animation: slideInRight 0.3s ease forwards;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.alert-success {
+    background-color: var(--success-color);
+}
+
+.alert-error {
+    background-color: var(--error-color);
+}
+
+.alert-fade-out {
+    animation: fadeOutRight 0.3s ease forwards;
+}
+
+/* =========================================
+   ANIMACIONES
+   ========================================= */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(100%); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes fadeOutRight {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(100%); }
+}
+
+@keyframes rowInsert {
+    from { opacity: 0; transform: translateX(-10px); background-color: rgba(59, 130, 246, 0.3); }
+    to { opacity: 1; transform: translateX(0); background-color: transparent; }
+}
+
+.new-row {
+    animation: rowInsert 0.5s ease;
+}
+
+/* =========================================
+   DISEÑO RESPONSIVO (MÓVILES Y TABLETS)
+   ========================================= */
+@media (max-width: 768px) {
+    /* 1. Layout general */
+    body {
+        padding: 1rem 0.5rem;
+    }
+    
+    .app-container {
+        gap: 1rem;
+    }
+
+    .main-content {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .panel-glass {
+        padding: 1.5rem 1rem;
+    }
+
+    /* 2. Formularios (100% ancho) */
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0;
+    }
+
+    /* Autenticación centrada y responsive */
+    #auth-section {
+        margin: 1rem;
+        max-width: 100%;
+        width: auto;
+    }
+
+    /* Filtros en una columna o dos */
+    .filters-container {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .filters-container > div:last-child {
+        flex-direction: column;
+    }
+
+    /* 3. Navbar (scroll horizontal mejorado y botones más grandes) */
+    .navbar {
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        -webkit-overflow-scrolling: touch;
+        scroll-snap-type: x mandatory;
+    }
+
+    .nav-item {
+        min-height: 44px; /* Tamaño mínimo accesible para tap */
+        padding: 0.5rem 1rem;
+        scroll-snap-align: start;
+        flex: 0 0 auto;
+    }
+
+    /* 4. Tablas transformadas a Tarjetas (Cards) */
+    table, thead, tbody, th, td, tr {
+        display: block;
+    }
+
+    thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+    }
+
+    tr {
+        margin-bottom: 1rem;
+        border: 1px solid var(--glass-border);
+        border-radius: var(--border-radius);
+        background: rgba(255, 255, 255, 0.02);
+        padding: 1rem;
+    }
+
+    td {
+        border: none;
+        position: relative;
+        padding: 0.5rem 0 0.5rem 45%;
+        text-align: right;
+        min-height: 2.5rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+
+    td:last-child {
+        border-bottom: 0;
+    }
+
+    td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 0;
+        width: 40%;
+        padding-right: 10px;
+        white-space: nowrap;
+        text-align: left;
+        font-weight: 600;
+        color: var(--text-secondary);
+    }
+}

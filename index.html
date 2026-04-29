@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistema de Gestión de Inventario para Microempresas">
+    <title>InventarioPro | Gestión Eficiente</title>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Estilos CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Sidebar / Encabezado -->
+        <header class="header">
+            <div class="logo">
+                <span class="icon">📦</span>
+                <h1>InventarioPro</h1>
+            </div>
+            <p class="subtitle">Gestión de Stock para Microempresas</p>
+            <button id="btn-logout" class="btn-delete hidden" style="margin-top: 10px;">Cerrar Sesión</button>
+        </header>
+
+        <!-- SECCIÓN DE AUTENTICACIÓN -->
+        <section id="auth-section" class="panel-glass" style="max-width: 400px; margin: 2rem auto;">
+            <!-- Contenedor Login -->
+            <div id="login-container">
+                <h2>Iniciar Sesión</h2>
+                <form id="login-form" novalidate>
+                    <div class="form-group">
+                        <label for="login-rut">RUT</label>
+                        <input type="text" id="login-rut" placeholder="Ej. 12345678-9" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Contraseña</label>
+                        <input type="password" id="login-password" placeholder="Mínimo 4 caracteres" required>
+                    </div>
+                    <span class="error-msg" id="auth-error"></span>
+                    <button type="submit" class="btn-primary" style="margin-top: 10px;">Ingresar</button>
+                    <p style="margin-top: 1.5rem; text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                        ¿No tienes cuenta? <a href="#" id="btn-show-register" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Crear cuenta</a>
+                    </p>
+                </form>
+            </div>
+
+            <!-- Contenedor Registro -->
+            <div id="register-container" class="hidden">
+                <h2>Registro</h2>
+                <form id="register-form" novalidate>
+                    <div class="form-group">
+                        <label for="register-rut">RUT</label>
+                        <input type="text" id="register-rut" placeholder="Ej. 12345678-9" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="register-password">Contraseña</label>
+                        <input type="password" id="register-password" placeholder="Mínimo 4 caracteres" required>
+                    </div>
+                    <span class="error-msg" id="register-error"></span>
+                    <button type="submit" class="btn-primary" style="margin-top: 10px;">Registrar</button>
+                    <p style="margin-top: 1.5rem; text-align: center; color: var(--text-secondary); font-size: 0.9rem;">
+                        ¿Ya tienes cuenta? <a href="#" id="btn-show-login" style="color: var(--accent-color); text-decoration: none; font-weight: 600;">Iniciar sesión</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+
+        <main class="main-content">
+            
+            <!-- NAVEGACIÓN TIPO NAVBAR SUPERIOR -->
+            <nav id="dashboard-nav" class="navbar">
+                <button class="nav-item" onclick="mostrarSeccion('sec-ingresar')">Ingresar Productos</button>
+                <button class="nav-item" onclick="mostrarSeccion('sec-eliminar')">Eliminar Productos</button>
+                <button class="nav-item" onclick="mostrarSeccion('sec-compras')">Compras</button>
+                <button class="nav-item" onclick="mostrarSeccion('sec-ventas')">Ventas</button>
+                <button class="nav-item" onclick="mostrarSeccion('sec-historial')">Historial</button>
+                <button class="nav-item active" onclick="mostrarSeccion('sec-inventario')">Inventario General</button>
+            </nav>
+
+            <!-- Contenedor para mensajes de retroalimentación -->
+            <div id="alert-container" class="alert-container"></div>
+
+            <!-- MÓDULO: Eliminar Productos -->
+            <section id="sec-eliminar" class="form-section panel-glass dashboard-section hidden">
+                <h2>Eliminar Cantidad de Producto</h2>
+                <form id="delete-form" novalidate>
+                    <div class="form-group">
+                        <label for="delete-product-name">Nombre del Producto</label>
+                        <input type="text" id="delete-product-name" placeholder="Ej. Teclado Mecánico" required>
+                        <span class="error-msg" id="error-delete-name"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="delete-quantity">Cantidad a Eliminar</label>
+                        <input type="number" id="delete-quantity" placeholder="1" min="1" required>
+                        <span class="error-msg" id="error-delete-quantity"></span>
+                    </div>
+                    <button type="submit" class="btn-primary" style="background-color: #ef4444;">Eliminar Stock</button>
+                </form>
+            </section>
+
+            <!-- MÓDULO: Compras -->
+            <section id="sec-compras" class="form-section panel-glass dashboard-section hidden">
+                <h2>Registrar Compra</h2>
+                <form id="purchase-form" novalidate>
+                    <div class="form-group">
+                        <label for="purchase-supplier">Proveedor</label>
+                        <input type="text" id="purchase-supplier" placeholder="Ej. Distribuidora S.A." required>
+                        <span class="error-msg" id="error-purchase-supplier"></span>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="purchase-product">Nombre del Producto</label>
+                            <input type="text" id="purchase-product" placeholder="Ej. Teclado Mecánico" required>
+                            <span class="error-msg" id="error-purchase-product"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="purchase-category">Categoría (Solo Nuevos)</label>
+                            <select id="purchase-category" required>
+                                <option value="" disabled selected>Seleccione...</option>
+                                <option value="Electronica">Electrónica</option>
+                                <option value="Ropa">Ropa</option>
+                                <option value="Alimentos">Alimentos</option>
+                                <option value="Herramientas">Herramientas</option>
+                                <option value="Otros">Otros</option>
+                            </select>
+                            <span class="error-msg" id="error-purchase-category"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="purchase-price">Precio de Compra ($)</label>
+                            <input type="number" id="purchase-price" placeholder="0.00" step="0.01" min="0" required>
+                            <span class="error-msg" id="error-purchase-price"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="purchase-quantity">Cantidad</label>
+                            <input type="number" id="purchase-quantity" placeholder="1" min="1" required>
+                            <span class="error-msg" id="error-purchase-quantity"></span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="background-color: #10b981;">Registrar Compra</button>
+                </form>
+            </section>
+
+            <!-- MÓDULO: Ventas -->
+            <section id="sec-ventas" class="form-section panel-glass dashboard-section hidden">
+                <h2>Registrar Venta</h2>
+                <form id="sale-form" novalidate>
+                    <div class="form-group">
+                        <label for="sale-type">Tipo de Documento</label>
+                        <select id="sale-type" required>
+                            <option value="boleta" selected>Boleta</option>
+                            <option value="factura">Factura</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="sale-product">Nombre del Producto</label>
+                        <input type="text" id="sale-product" placeholder="Ej. Teclado Mecánico" required>
+                        <span class="error-msg" id="error-sale-product"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sale-quantity">Cantidad a Vender</label>
+                        <input type="number" id="sale-quantity" placeholder="1" min="1" required>
+                        <span class="error-msg" id="error-sale-quantity"></span>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="background-color: #3b82f6;">Confirmar Venta</button>
+                </form>
+            </section>
+
+            <!-- MÓDULO: Ingresar Productos -->
+            <section id="sec-ingresar" class="form-section panel-glass dashboard-section hidden">
+                <h2>Registrar Producto</h2>
+                <form id="inventory-form" novalidate>
+                    <div class="form-group">
+                        <label for="product-name">Nombre del Producto</label>
+                        <input type="text" id="product-name" name="product-name" placeholder="Ej. Teclado Mecánico" required>
+                        <span class="error-msg" id="error-name"></span>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="product-price">Precio ($)</label>
+                            <input type="number" id="product-price" name="product-price" placeholder="0.00" step="0.01" min="0" required>
+                            <span class="error-msg" id="error-price"></span>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="product-stock">Stock (Cant.)</label>
+                            <input type="number" id="product-stock" name="product-stock" placeholder="0" min="0" required>
+                            <span class="error-msg" id="error-stock"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="product-category">Categoría</label>
+                        <select id="product-category" name="product-category" required>
+                            <option value="" disabled selected>Seleccione una categoría...</option>
+                            <option value="Electronica">Electrónica</option>
+                            <option value="Ropa">Ropa</option>
+                            <option value="Alimentos">Alimentos</option>
+                            <option value="Herramientas">Herramientas</option>
+                            <option value="Otros">Otros</option>
+                        </select>
+                        <span class="error-msg" id="error-category"></span>
+                    </div>
+
+                    <button type="submit" class="btn-primary" id="btn-submit">
+                        <span class="btn-text">Agregar al Inventario</span>
+                        <span class="btn-icon">+</span>
+                    </button>
+                </form>
+            </section>
+
+            <section id="sec-inventario" class="inventory-section panel-glass dashboard-section">
+                <div class="section-header">
+                    <h2>Inventario Actual</h2>
+                    <div class="stats">
+                        Total Productos: <span id="total-products" class="badge">0</span>
+                    </div>
+                </div>
+                
+                <!-- CONTROLES DE BÚSQUEDA Y FILTRADO -->
+                <div class="filters-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; align-items: flex-end;">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="search-input">🔍 Buscar</label>
+                        <input type="text" id="search-input" placeholder="Nombre...">
+                    </div>
+                    
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="filter-category">📊 Categoría</label>
+                        <select id="filter-category">
+                            <option value="Todas">Todas</option>
+                            <option value="Electronica">Electrónica</option>
+                            <option value="Ropa">Ropa</option>
+                            <option value="Alimentos">Alimentos</option>
+                            <option value="Herramientas">Herramientas</option>
+                            <option value="Otros">Otros</option>
+                            <option value="Sin Categoría">Sin Categoría</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="filter-price-max">💰 Precio Máx ($)</label>
+                        <input type="number" id="filter-price-max" placeholder="Ej. 10000" min="0">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="filter-stock-min">📦 Stock Mín.</label>
+                        <input type="number" id="filter-stock-min" placeholder="Ej. 10" min="0">
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label for="filter-date">📅 Fecha Registro</label>
+                        <input type="date" id="filter-date">
+                    </div>
+
+                    <div style="display: flex; gap: 0.5rem; margin-bottom: 0;">
+                        <button type="button" id="btn-low-stock" title="Stock Bajo" style="flex: 1; padding: 0.75rem; background-color: #f59e0b; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+                            ⚠️ Bajas
+                        </button>
+                        <button type="button" id="btn-reset-filters" title="Limpiar Filtros" style="flex: 1; padding: 0.75rem; background-color: #ef4444; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.3s;">
+                            Limpiar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="inventory-table">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Categoría</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventory-body">
+                            <!-- Los productos se renderizarán aquí dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Estado vacío -->
+                <div id="empty-state" class="empty-state hidden">
+                    <div class="empty-icon">📭</div>
+                    <p>No hay productos en el inventario.</p>
+                </div>
+            </section>
+
+            <!-- MÓDULO: Historial de Movimientos -->
+            <section id="sec-historial" class="panel-glass dashboard-section hidden">
+                <div class="section-header">
+                    <h2>Historial de Movimientos</h2>
+                </div>
+                <div class="table-container">
+                    <table id="history-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Tipo</th>
+                                <th>Detalle</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="history-body">
+                            <!-- Los movimientos se renderizarán aquí dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+                <div id="history-empty-state" class="empty-state hidden">
+                    <div class="empty-icon">📜</div>
+                    <p>Aún no hay movimientos registrados.</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script JS -->
+    <script src="app.js"></script>
+</body>
+</html>
