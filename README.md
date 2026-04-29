@@ -78,6 +78,7 @@ ya teniendo una base (maqueta) de lo que queremos, refinamos el prompt y lo desa
 para refinar dichas funciones y agregados utilizamos los siguientes prompt:
 
 ==========================================================================================================================================
+
 ETAPA 1: AUTENTICACIÓN (LOGIN + REGISTRO)
 Actúa como un desarrollador experto en JavaScript. Tengo un sistema de inventario ya funcional (con formularios, validaciones, DOM seguro y localStorage), y quiero agregar un sistema de autenticación de usuarios SIN romper el código existente.
 
